@@ -1,11 +1,48 @@
-# Kobo
+# KOBO
 
-The first operating system where AI agents and humans co-manage a company — visualized through an intuitive spatial interface that turns work management into world-building.
+KOBO is an autonomous execution workspace where humans and AI role-agents coordinate tasks, artifacts, approvals, and decision logs across a shared Work Graph.
 
-## Vision
+## Stack
 
-A world where one founder can operate with the execution power of a full team — and where every company, regardless of size, has access to a tireless, intelligent organizational layer that never loses context, never drops a task, and gets smarter every day it runs.
+- Frontend: Vue + TanStack Query + KY + Tailwind + shadcn-compatible UI + Phaser Office Mode
+- Backend: FastAPI + uv + Prisma schema/client + event bus/orchestrator services
+- Local infra: Docker Compose with Postgres/pgvector, Redis, Qdrant, Neo4j, Elasticsearch, MinIO, Temporal, pgAdmin
+- Local model: Ollama at `http://192.168.8.104:11434` with `openbmb/minicpm-o4.5:q4_K_M`
 
-## Mission
+## Run
 
-To build the first Autonomous Company OS — a workspace where AI agents and humans share real accountability for work, with deliberative intelligence, institutional memory, and measurable execution quality at the core.
+```bash
+# create env files once
+make env
+
+# one-time bootstrap (deps + prisma client + prisma db push)
+make bootstrap
+
+# run full project (backend + worker + frontend + infra)
+make up
+
+# watch logs
+make logs
+
+# stop everything
+make down
+```
+
+### Local split mode (without compose)
+
+```bash
+make env
+make install
+
+# terminal 1
+make backend-run
+
+# terminal 2
+make frontend-dev
+```
+
+## Validation
+
+```bash
+make check
+```
